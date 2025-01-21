@@ -6,13 +6,7 @@ const lightbox = new SimpleLightbox('.gallery a');
 
 export function renderGallery(images) {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = ''; 
-
-  if (images.length === 0) {
-    showNoResultsMessage();
-    return;
-  }
-
+  
   const markup = images
     .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
       return `
@@ -30,15 +24,13 @@ export function renderGallery(images) {
     .join('');
   
   gallery.insertAdjacentHTML('beforeend', markup);
-
-  
   lightbox.refresh();
 }
 
 export function showNoResultsMessage() {
   const gallery = document.querySelector('.gallery');
   gallery.innerHTML = '';
-
+  
   iziToast.error({
     title: 'Sorry',
     message: 'There are no images matching your search query. Please try again!',
