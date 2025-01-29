@@ -1,5 +1,7 @@
 import { fetchImages, incrementPage, resetPage } from './js/pixabay-api.js';
 import { renderGallery, showNoResultsMessage, showLoadingIndicator, hideLoadingIndicator } from './js/render-functions.js';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.search-form');
@@ -27,11 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (data.totalHits <= gallery.children.length) {
         loadMoreButton.classList.add('hidden');
-        alert("We're sorry, but you've reached the end of search results.");
+        iziToast.info({
+          title: 'Info',
+          message: "We're sorry, but you've reached the end of search results.",
+        });
       }
 
+      const firstTwoCardsHeight = gallery.children[0].offsetHeight * 2;
       window.scrollBy({
-        top: document.querySelector('.gallery').getBoundingClientRect().height * 2,
+        top: firstTwoCardsHeight,
         behavior: 'smooth',
       });
 
@@ -54,8 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Очищаємо старі результати перед новим пошуком
-    gallery.innerHTML = '';  // Очищаємо галерею
+    gallery.innerHTML = '';
     resetPage();
     loadMoreButton.classList.add('hidden');
     
@@ -75,9 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (data.totalHits <= 15) {
         loadMoreButton.classList.add('hidden');
-        alert("We're sorry, but you've reached the end of search results.");
+        iziToast.info({
+          title: 'Info',
+          message: "We're sorry, but you've reached the end of search results.",
+        });
       }
-
     } catch (error) {
       showNoResultsMessage();
     } finally {
@@ -85,3 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
