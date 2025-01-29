@@ -41,7 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: 'smooth',
       });
 
-      form.scrollIntoView({ behavior: 'smooth' }); 
+      setTimeout(() => {
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
 
     } catch (error) {
       showNoResultsMessage();
@@ -88,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       
-      form.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
       
     } catch (error) {
       showNoResultsMessage();
@@ -97,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
 
