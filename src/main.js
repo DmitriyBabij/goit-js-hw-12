@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         behavior: 'smooth',
       });
 
-      searchInput.focus(); 
+      form.scrollIntoView({ behavior: 'smooth' }); 
 
     } catch (error) {
       showNoResultsMessage();
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       
-      searchInput.focus();
+      form.scrollIntoView({ behavior: 'smooth' });
       
     } catch (error) {
       showNoResultsMessage();
