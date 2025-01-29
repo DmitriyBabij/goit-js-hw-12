@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       renderGallery(data.hits);
       incrementPage();
-      form.classList.remove('hidden');
       
       if (data.totalHits <= gallery.children.length) {
         loadMoreButton.classList.add('hidden');
@@ -41,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         top: firstTwoCardsHeight,
         behavior: 'smooth',
       });
+
+      searchInput.focus(); 
 
     } catch (error) {
       showNoResultsMessage();
@@ -64,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.innerHTML = '';
     resetPage();
     loadMoreButton.classList.add('hidden');
-    form.classList.remove('hidden'); 
     
     showLoadingIndicator();
     
@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
           message: "We're sorry, but you've reached the end of search results.",
         });
       }
+      
+      searchInput.focus();
+      
     } catch (error) {
       showNoResultsMessage();
     } finally {
@@ -94,5 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
