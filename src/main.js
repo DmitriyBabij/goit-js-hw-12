@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       renderGallery(data.hits);
       incrementPage();
+      form.classList.remove('hidden');
       
       if (data.totalHits <= gallery.children.length) {
         loadMoreButton.classList.add('hidden');
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      const firstTwoCardsHeight = gallery.children[0].offsetHeight * 2;
+      const firstTwoCardsHeight = gallery.children[0]?.offsetHeight * 2 || 0;
       window.scrollBy({
         top: firstTwoCardsHeight,
         behavior: 'smooth',
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.innerHTML = '';
     resetPage();
     loadMoreButton.classList.add('hidden');
+    form.classList.remove('hidden'); 
     
     showLoadingIndicator();
     
@@ -92,4 +94,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
