@@ -12,27 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMoreButton.classList.add('load-more', 'hidden');
   document.body.appendChild(loadMoreButton);
 
-  const scrollToTopButton = document.createElement('button');
-  scrollToTopButton.id = 'scrollToTop';
-  scrollToTopButton.textContent = '⬆️ Повернутися нагору';
-  scrollToTopButton.classList.add('hidden');
-  document.body.appendChild(scrollToTopButton);
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      scrollToTopButton.style.display = 'block';
-    } else {
-      scrollToTopButton.style.display = 'none';
-    }
-  });
-
-  scrollToTopButton.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  });
-
   loadMoreButton.addEventListener('click', async () => {
     const query = searchInput.value.trim();
     showLoadingIndicator();
@@ -79,26 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       return;
     }
-
+  
     // Очищаємо старі результати перед новим пошуком
-    gallery.innerHTML = '';  // Очищаємо галерею
+    gallery.innerHTML = '';  
     resetPage();
     loadMoreButton.classList.add('hidden');
-    
+  
     showLoadingIndicator();
-    
+  
     try {
       const data = await fetchImages(query);
-      
+  
       if (data.hits.length === 0) {
         showNoResultsMessage();
         return;
       }
-
+  
       renderGallery(data.hits);
       incrementPage();
       loadMoreButton.classList.remove('hidden');
-      
+  
       if (data.totalHits <= 15) {
         loadMoreButton.classList.add('hidden');
         iziToast.info({
@@ -106,19 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
           message: "We're sorry, but you've reached the end of search results.",
         });
       }
-
-      window.scrollTo({
-        top: form.offsetTop,
+  
+      // Прокрутка сторінки до пошукового вікна
+      document.querySelector('.search-form').scrollIntoView({
         behavior: 'smooth',
+        block: 'start',
       });
+  
     } catch (error) {
       showNoResultsMessage();
     } finally {
       hideLoadingIndicator();
     }
-  });
+  });  
 });
-
 
 
 
