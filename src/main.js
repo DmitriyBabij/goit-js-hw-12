@@ -35,15 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      const firstTwoCardsHeight = gallery.children[0]?.offsetHeight * 2 || 0;
       window.scrollBy({
-        top: firstTwoCardsHeight,
+        top: document.querySelector('.gallery').getBoundingClientRect().height * 2,
         behavior: 'smooth',
       });
-
-      setTimeout(() => {
-        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 500);
 
     } catch (error) {
       showNoResultsMessage();
@@ -64,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    gallery.innerHTML = '';
+    // Очищаємо старі результати перед новим пошуком
+    gallery.innerHTML = '';  // Очищаємо галерею
     resetPage();
     loadMoreButton.classList.add('hidden');
     
@@ -89,11 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
           message: "We're sorry, but you've reached the end of search results.",
         });
       }
-      
-      setTimeout(() => {
-        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 500);
-      
     } catch (error) {
       showNoResultsMessage();
     } finally {
@@ -101,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
 
