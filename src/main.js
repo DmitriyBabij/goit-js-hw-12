@@ -12,6 +12,27 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMoreButton.classList.add('load-more', 'hidden');
   document.body.appendChild(loadMoreButton);
 
+  const scrollToTopButton = document.createElement('button');
+  scrollToTopButton.id = 'scrollToTop';
+  scrollToTopButton.textContent = '⬆️ Повернутися нагору';
+  scrollToTopButton.classList.add('hidden');
+  document.body.appendChild(scrollToTopButton);
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollToTopButton.style.display = 'block';
+    } else {
+      scrollToTopButton.style.display = 'none';
+    }
+  });
+
+  scrollToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  });
+
   loadMoreButton.addEventListener('click', async () => {
     const query = searchInput.value.trim();
     showLoadingIndicator();
@@ -85,6 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
           message: "We're sorry, but you've reached the end of search results.",
         });
       }
+
+      window.scrollTo({
+        top: form.offsetTop,
+        behavior: 'smooth',
+      });
     } catch (error) {
       showNoResultsMessage();
     } finally {
@@ -92,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
 
