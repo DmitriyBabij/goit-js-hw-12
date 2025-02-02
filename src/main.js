@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    // Очищаємо старі результати перед новим пошуком
-    gallery.innerHTML = '';  
+    gallery.innerHTML = '';  // Очищаємо галерею
     resetPage();
     loadMoreButton.classList.add('hidden');
   
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     try {
       const data = await fetchImages(query);
-  
+      
       if (data.hits.length === 0) {
         showNoResultsMessage();
         return;
@@ -86,18 +85,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
   
-      // Прокрутка сторінки до пошукового вікна
-      document.querySelector('.search-form').scrollIntoView({
+    } catch (error) {
+      showNoResultsMessage();
+    } finally {
+      hideLoadingIndicator();
+      searchInput.focus();  // Повертаємо фокус у поле пошуку
+    }
+  });
+  
+  loadMoreButton.addEventListener('click', async () => {
+    const query = searchInput.value.trim();
+    showLoadingIndicator();
+  
+    try {
+      const data = await fetchImages(query);
+      
+      if (data.hits.length === 0) {
+        showNoResultsMessage();
+        return;
+      }
+  
+      renderGallery(data.hits);
+      incrementPage();
+      
+      if (data.totalHits <= gallery.children.length) {
+        loadMoreButton.classList.add('hidden');
+        iziToast.info({
+          title: 'Info',
+          message: "We're sorry, but you've reached the end of search results.",
+        });
+      }
+  
+      window.scrollBy({
+        top: document.querySelector('.gallery').getBoundingClientRect().height * 2,
         behavior: 'smooth',
-        block: 'start',
       });
   
     } catch (error) {
       showNoResultsMessage();
     } finally {
       hideLoadingIndicator();
+      searchInput.focus();  // Повертаємо фокус у поле пошуку
     }
-  });  
+  });
 });
 
 
